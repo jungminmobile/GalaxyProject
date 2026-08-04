@@ -4,6 +4,8 @@
 주 대상 기기: **Galaxy S26 Ultra**(Snapdragon 8 Elite Gen 5, SM8850, HTP v81) / 보조 비교군: Galaxy S22·Z Fold4·Z Flip4(전부 2022년형 v69)
 
 > **먼저 11장부터 읽을 것**: "이 계획이 실제로 실행 가능한가"를 다시 비판적으로 검증한 결과입니다. 특히 11-2(GenieX가 S22/Fold4/Flip4를 공식적으로 지원 안 함이 재확인됨)와 11-3(S26 Ultra 실기가 없어도 되는 공식 경로 발견)은 아래 본문 설계에 직접 영향을 줍니다.
+>
+> **기기 바꿔서 다시 시작하는 경우 `PROGRESS_LOG.md`부터 읽을 것**: 실기로 진행한 실제 작업 기록(설치 트러블슈팅, 다음에 이어서 할 것)은 이 계획서가 아니라 `PROGRESS_LOG.md`에 세션별로 쌓입니다.
 
 ---
 
@@ -137,12 +139,12 @@
 
 ## 8. 준비물 체크리스트
 
-- [ ] 무료 Qualcomm 계정(QPM 가입) — QAIRT SDK, Snapdragon Profiler 설치용
-- [ ] Android Studio(+NDK, Tier 3용)
+- [x] **무료 Qualcomm 계정(QPM 가입) — 완료** (`sset0308@gmail.com`, 2026-08-04. 로그인 트러블슈팅 기록은 `PROGRESS_LOG.md` 참고)
+- [ ] Android Studio(+NDK, Tier 3용) — 다음 세션에서 GenieX 진행 시 필요
 - [ ] GenieX Android SDK 의존성 추가 — `implementation("com.qualcomm.qti:geniex-android:0.3.16")`(Maven Central 실존 확인됨, 11-1 참고. `google()`+`mavenCentral()` 표준 저장소만 있으면 됨)
 - [x] **S26 Ultra 실기 확보 — 확보 완료(실험 목적으로 지급받음, 11-3 갱신 참고). QDC 원격 경로는 불필요해짐**
-- [ ] Snapdragon Profiler 데스크톱 설치(Windows/Mac/Linux, USB로 기기 연결 — 실기 보유로 물리적 USB 연결 가능, QDC 호환성 이슈 소멸)
-- [ ] 개발자 옵션 → USB 디버깅 활성화(루팅 불필요, 9-5 참고)
+- [x] **Snapdragon Profiler 데스크톱 설치 — 완료, USB로 S26 Ultra 연결해 DSP 카운터 실측까지 확인함(2026-08-04).** QPM에서 "Qualcomm® Profiler"(신규 브랜딩, QPM3 경유)가 두 기기 모두에서 설치 실패했고, "Snapdragon® Profiler"(구 브랜딩, 직접 다운로드) 경로로 우회 성공. 상세 트러블슈팅은 `PROGRESS_LOG.md` 참고
+- [x] **개발자 옵션 → USB 디버깅 활성화 — 완료**(루팅 불필요, 9-5 참고. adb 시리얼 `R5KL20NJQVX`)
 - [ ] 온도 재현 가능한 실험 공간(에어컨 등으로 22±2°C 유지)
 - [ ] 실험 로그용 CSV 스키마 사전 확정(6장 참고)
 
