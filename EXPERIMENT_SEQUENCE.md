@@ -38,11 +38,10 @@
 
 ## Phase 1. 불확실성 우선 해소(실기 검증) — **데이터 수집 전 필수**
 
-1. ⚠️ **Document Scan/Interpreter가 실제 온디바이스인지** (18장 → 23-2 Track B의 전제조건)
-   - 확인 방법: 비행기 모드에서 정상 동작하는지 테스트
-   - 실패 시 대안: 노트 번역(언어팩 확보 후 비행기모드 테스트, 18-3) 또는 BLG 후보 재탐색
+1. ✅ **Document Scan/Interpreter가 실제 온디바이스인지 — 해소(2026-08-07)** (18장 → 23-2 Track B의 전제조건)
+   - S25 FE(Exynos)에서 1차 확인 후, **이 프로젝트 대상 기기인 S26U(Snapdragon)에서 비행기모드+뉴스 영어 낭독+TTS 변환 정상 동작 재확인 완료.** 통역을 Track B 조건 B 워크로드로 확정. S24U 재확인은 선택사항.
 2. ⚠️ **"기기에서만 처리" 토글의 정확한 메뉴 위치·적용 범위** — Track B의 "항상 ON" 전제가 실제로 뭘 켜는 건지 확인 필요
-3. ⚠️ **GenieX vs llama.cpp CLI 중 어느 쪽이 먼저 실기에서 도는지** — 둘 다 미검증(15-2, 16장)
+3. ⚠️ **llama.cpp(OpenCL/Hexagon) 실기 설치·구동 — 다음 최우선**(24장, GenieX는 보조로 격하) — 미검증
 4. ⚠️ **GenieX가 VLM에도 8 Elite+ 제약을 동일 적용하는지** — 20-1 갱신분, S26U 실기 확인 필요
 5. ⚠️ **`dumpsys battery set level`이 실제 스로틀링을 유발하는지** — Track C에 필요(17-2)
 
@@ -88,8 +87,8 @@
 |---|---|---|---|
 | S22/Fold4/Flip4 개발자모드 상태 | 0 | Track A 해당 기기 진행 불가 | 실기 확인 후 활성화 |
 | S24 Ultra MDM 제약 여부 | 0 | Track A/B 해당 기기 진행 불가 | S26U 때와 동일 절차로 확인 |
-| GenieX/llama.cpp/ExecuTorch 실물 설치 | 0 | 전체 실험 도구 자체가 없음 | 셋 중 먼저 되는 것부터 채택(16, 21장) |
-| Document Scan/Interpreter 온디바이스 여부 | 1, 3 | **Track B 전체가 무산될 수 있음** | 노트 번역 재검증, 또는 BLG 후보 재탐색 |
+| llama.cpp(OpenCL/Hexagon) 실물 설치·구동 | 0 | 메인 측정 도구 자체가 없음(24장) | GenieX/ExecuTorch로 임시 대체 |
+| ~~Document Scan/Interpreter 온디바이스 여부~~ | 1, 3 | **해소(2026-08-07)** — 통역 S26U 확인 완료 | - |
 | "기기에서만 처리" 토글 적용 범위 | 1, 3 | Track B 조건(b)의 정의 자체가 흔들림 | 실기 설정 화면 직접 확인 |
 | GenieX VLM의 8 Elite+ 제약 | 1 | 20장 VLM 계획이 S26U 한정인지 재검증 필요 | 실기 테스트 |
 | 배터리 레벨 시뮬레이션(`dumpsys`) | 1, 4 | Track C의 저잔량 조건 신뢰도 저하 | 실측 방전으로 대체(시간 더 걸림) |
