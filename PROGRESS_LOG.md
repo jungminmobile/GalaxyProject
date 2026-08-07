@@ -4,6 +4,38 @@
 
 ---
 
+## 2026-08-06~07 세션 — 연구 설계 전면 재구성 (읽기 순서: `STUDY_DESIGN.md` → `EXPERIMENT_PLAN.md`)
+
+### 요약
+
+이번 세션은 실기 작업이 아니라 **연구 설계 자체를 크게 다듬은 세션**. 최종 결과물은 `STUDY_DESIGN.md`(현재 확정 계획만, 외부 AI 검토용) + `EXPERIMENT_PLAN.md`(왜 이렇게 바뀌었는지 전체 히스토리, 13~24장 추가) + 신규 3개 문서(`RELATED_PAPERS.md`, `CONTRIBUTION_FEASIBILITY.md`, `EXPERIMENT_SEQUENCE.md`).
+
+### 방향 전환 흐름
+
+1. 기존 계획(파라미터 스윕만)이 너무 단순한 것 아니냐는 문제 제기 → VELTAIR류 적응형 컴파일러 이식 검토(엔지니어링 부담 너무 커서 향후 과제로 분리, `EXPERIMENT_PLAN.md` 10-A-3).
+2. "삼성 관점에서 흥미로운 주제"로 재조준 → **Galaxy AI(삼성 자사 온디바이스 AI) vs 우리 AI의 NPU 자원 경합**을 핵심 RQ7로 확정.
+3. 배경부하 후보를 유튜브(일반 앱) → Galaxy AI 개별 기능으로 바꿔가며 실기로 3번 반박당함(18장): 유튜브는 GPU 연산을 실제로 안 뺏음, 오브젝트 지우개는 One UI 8.5에서 클라우드 전환 의심, 노트 번역은 토글과 무관하게 항상 언어팩 요구. → 다음 세션 최우선 확인 항목은 여전히 **Document Scan/Interpreter가 진짜 온디바이스인지**.
+4. **S24 Ultra가 보유 기기로 새로 확인됨** — 기존 기기 로스터(S22/Fold4/Flip4/S26U)에 추가. 5개 기기 체제로 확정.
+5. 논문 그대로 베끼면 안 된다는 우려 → 선행논문(arXiv 2603.23640, 4플랫폼 중 삼성 1대만 사용) 대비 기여 재정리 → **Tier 1(전체 플랫폼 비교: 5개 삼성기기+데스크탑 RTX4080, Orin Nano는 선택) / Tier 2(S24U vs S26U 세대비교, 조건 A/B/C)** 구조로 확정.
+6. 외부 검토(다른 AI)가 준 방법론 보강(카메라 기반 지연시간 측정, 25°C 환경통제, 스플릿스크린+배터리 무제한 설정으로 OS 스로틀링 회피, Python+ADB 자동화 파이프라인) 전부 반영. 단 **모델을 "Llama 3 8B"로 하자는 제안은 오류로 정정**(논문 실제 모델은 Qwen2.5-1.5B, 4bit — OOM 리스크 때문에도 8B는 부적절).
+7. **최종 확정(24장): llama.cpp를 GenieX 대신 메인 측정 도구로 채택.** 단 GPU 검증 백엔드는 제안받은 "Vulkan"이 아니라 **OpenCL(GGML_OPENCL/GPUOpenCL)**로 정정 — Vulkan은 Adreno GPU에서 모델 로드 자체가 크래시 나는 것으로 공식 GitHub 이슈에 다수 보고됨. llama.cpp 공식 Snapdragon 문서 기준 백엔드는 `D=CPU` / `D=GPUOpenCL` / `D=HTP0~4`.
+
+### 다음 세션 최우선 순위 (`CONTRIBUTION_FEASIBILITY.md` 3장과 동일)
+
+1. Document Scan/Interpreter 실제 온디바이스 여부 실기 확인(비행기모드 테스트) — Track B(RQ7 핵심) 생존 여부가 걸림.
+2. llama.cpp Hexagon/OpenCL 백엔드 실기 빌드·구동(`ghcr.io/snapdragon-toolchain/arm64-android` 툴체인, GPU는 반드시 OpenCL로) — 지금까지 전부 "문서상 가능"만 확인, 실물 설치 0건.
+3. S22/Fold4/Flip4/S24U 개발자모드·USB디버깅 활성화(S26U만 완료).
+4. "기기에서만 처리" 토글의 정확한 메뉴 위치·적용 범위 확인.
+
+### 문서 구조 안내(다른 기기에서 이어할 때)
+
+- **가장 먼저 `STUDY_DESIGN.md` 읽기** — 지금 확정된 계획만 깔끔하게 정리됨.
+- 왜 이렇게 됐는지 궁금하면 `EXPERIMENT_PLAN.md`(13~24장이 이번 세션 분).
+- 실행 순서는 `EXPERIMENT_SEQUENCE.md`, 기여도/리스크는 `CONTRIBUTION_FEASIBILITY.md`, 참고문헌은 `RELATED_PAPERS.md`.
+- 주의: 이번 세션 내내 "문서상 가능해 보였는데 실기에서 다르게 나온" 사례가 반복됨(유튜브/오브젝트지우개/노트번역) — 모든 ⚠️ 표시 항목은 실기로 재확인 전까지 확정으로 취급하지 말 것.
+
+---
+
 ## 2026-08-04 세션
 
 ### 이번 세션에서 완료한 것

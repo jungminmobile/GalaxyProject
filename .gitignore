@@ -1,0 +1,3 @@
+# Raw profiler trace exports / large data files (not doc content)
+*.csv
+*.sdp
