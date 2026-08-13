@@ -1,3 +1,5 @@
 # Raw profiler trace exports / large data files (not doc content)
 *.csv
 *.sdp
+hexagon_verbose_log.txt
+*_verbose_log.txt
